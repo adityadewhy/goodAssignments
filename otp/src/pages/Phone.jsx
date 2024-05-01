@@ -1,4 +1,19 @@
+import React from "react";
+import {useNavigate} from "react-router-dom";
+
 export default function Phone() {
+	const navigate = useNavigate();
+	const handleClick = (event) => {
+		const phoneEl = document.getElementById("phone");
+		const enteredNum = phoneEl.value;
+		if (enteredNum.length == 10) {
+			navigate("/otp");
+			//console.log("good input"); useNavigate here to teleport to otp page
+		} else {
+			alert("incorrect phone format");
+		}
+	};
+
 	return (
 		<div>
 			<h1>Login via OTP</h1>
@@ -18,14 +33,3 @@ export default function Phone() {
 		</div>
 	);
 }
-
-const handleClick = (event) => {
-	const phoneEl = document.getElementById("phone");
-	const enteredNum = phoneEl.value;
-	if (enteredNum.length == 10) {
-		
-		//console.log("good input"); useNavigate here to teleport to otp page
-	} else {
-		alert("incorrect phone format");
-	}
-};
