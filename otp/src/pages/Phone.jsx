@@ -22,6 +22,7 @@ export default function Phone() {
 					id="phone"
 					name="phoneNumber"
 					placeholder="enter you phone number"
+					//fix text color
 				/>
 				<input
 					type="button"
