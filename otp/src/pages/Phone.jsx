@@ -30,7 +30,7 @@ export default function Phone() {
 				value="submitPhone"
 				class="bg-blue-400 text-white rounded-full p-2 m-2"
 			>
-				Submit Phone
+				Send OTP
 			</button>
 		</div>
 	);
