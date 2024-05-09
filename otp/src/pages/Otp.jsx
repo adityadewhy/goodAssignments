@@ -26,10 +26,9 @@ export default function Otp() {
 			</div>
 			<button
 				id="otpSubmitButton"
-				onClick={handleClick}
-				value="submit otp"
+				value="submitOtp"
 				class="bg-blue-400 text-white rounded-full p-2 m-2"
-			></button>
+			>Submit OTP</button>
 		</div>
 	);
 }
