@@ -1,74 +1,67 @@
-import {useEffect, useRef} from "react";
+import {useRef, useState} from "react";
 
 export default function Otp() {
-	//useEffect hook can be used here, on first render focus on id=1 , dependency of useEffect should be on keypress , everytime a key is pressed, focus on id+1 input box till it reaches id=4
-	let currentFocus = 0;
+	const [otp, setOtp] = useState(["", "", "", ""]);
+	const letterRefs = useRef([]);
 
-	const id1Ref = useRef("null");
-	const id2Ref = useRef("null");
-	const id3Ref = useRef("null");
-	const id4Ref = useRef("null");
+	function handleChange(index, value) {
+		let updateOtp = [...otp];
+		updateOtp[index] = value;
 
-	useEffect(() => {
-		id1Ref.current.focus();
-		currentFocus++;
-	}, []);
-
-	useEffect(() => {
-		if (id1Val.length > 0) {
-			id2Ref.current.focus();
+		if (value && index < otp.length - 1) {
+			letterRefs.current[index + 1].focus();
 		}
-	}, [id1Val]);
 
-	useEffect(() => {
-		if (id2Val.length > 0) {
-			id3Ref.current.focus();
-		}
-	}, [id2Val]);
+		setOtp(updateOtp);
+	}
 
-	useEffect(() => {
-		if (id3Val.length > 0) {
-			id4Ref.current.focus();
+	function handleBackspace(index, event) {
+		if (event.key == "Backspace" && index > 0 && index < otp.length - 1) {
+			let updateOtp = [...otp];
+			updateOtp[index] = "";
+			letterRefs.current[index - 1].focus();
+			setOtp(updateOtp);
 		}
-	}, [id3Val]);
+		if (event.key == "Backspace" && index == otp.length - 1) {
+			if (otp[index]) {
+				let updateOtp = [...otp];
+				updateOtp[index] = "";
+				setOtp(updateOtp);
+			} else {
+				let updateOtp = [...otp];
+				updateOtp[index] = "";
+				letterRefs.current[index - 1].focus();
+				setOtp(updateOtp);
+			}
+		}
+	}
 
 	return (
-		<div class="grid grid-rows-3 gap-4 place-items-center bg-gray-600">
-			<p>enter the otp below</p>
-			<div id="boxes" class="grid grid-cols-4">
-				<input
-					type="text"
-					id="1"
-					class="m-3 h-10 w-10 overflow-hidden color-black text-center"
-					value={id1Val}
-					ref={id1Ref}
-				/>
-				<input
-					type="text"
-					id="2"
-					class="m-3 h-10 w-10 overflow-hidden color-black text-center"
-					value={id2Val}
-					ref={id2Ref}
-				/>
-				<input
-					type="text"
-					id="3"
-					class="m-3 h-10 w-10 overflow-hidden color-black text-center"
-					value={id3Val}
-					ref={id3Ref}
-				/>
-				<input
-					type="text"
-					id="4"
-					class="m-3 h-10 w-10 overflow-hidden color-black text-center"
-					value={id4Val}
-					ref={id4Ref}
-				/>
+		<div className="bg-gray-600 grid grid-cols-1 place-items-center gap-3 m-3 p-3">
+			<h1 className="text-white p-3">enter the OTP below </h1>
+
+			<div className="otpCard grid grid-cols-4 gap-4 p-3" >
+				{otp.map((letter, index) => {
+					return (
+						<input
+							className="otpLetter w-12 h-12 text-center"
+							type="text"
+							key={index}
+							value={letter}
+							maxLength={1}
+							autoFocus={index === 0}
+							ref={(ref) => (letterRefs.current[index] = ref)}
+							onChange={(event) => handleChange(index, event.target.value)}
+							onKeyDown={(event) => handleBackspace(index, event)}
+						/>
+					);
+				})}
 			</div>
 			<button
 				id="otpSubmitButton"
+				className="bg-blue-400 text-white rounded-full p-2 m-2"
+				onClick={() => console.log("thankyou")}
 				value="submitOtp"
-				class="bg-blue-400 text-white rounded-full p-2 m-2"
 			>
 				Submit OTP
 			</button>
